@@ -5,7 +5,7 @@ using namespace std;
 using namespace cv;
 
 int main() {
-    cout << "testing....~!!!!"<<endl;
+    cout << "testing....~~~!!!!"<<endl;
     Mat srcImage = imread("test01.jpeg");
     if (!srcImage.data) {
         std::cout << "Image not loaded";

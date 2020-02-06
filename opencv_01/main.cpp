@@ -12,7 +12,6 @@ int main(){
             cout << (int)(*(m.data + m.step[0]*row+m.step[1]*col)) << "==> ";
             *(m.data + m.step[0]*row + m.step[1]*col) =255;
             cout << (int)(*(m.data + m.step[0]*row+m.step[1]*col)) << endl;
-
         }
     }
     imshow("testing",m);

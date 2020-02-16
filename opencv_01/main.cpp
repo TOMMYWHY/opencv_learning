@@ -4,7 +4,60 @@
 using namespace std;
 using namespace cv;
 
+
 #if 1
+
+int main(){
+    Mat m = imread("test01.jpeg");
+    Vec3i color;
+
+    for (int col = 20; col < 140; col++) {
+        for (int row = 2; row < 120; row++) {
+            color[0] = (int)(*(m.data + m.step[0]*row + m.step[1]*col));
+            color[1] = (int)(*(m.data + m.step[0]*row + m.step[1]*col+m.elemSize1()));
+            color[2] = (int)(*(m.data + m.step[0]*row + m.step[1]*col+m.elemSize1()*2));
+            cout << color[0] <<","<<color[1] << ","<<color[2]<<"==> ";
+
+            color[0] = 255;
+            color[1] = 0;
+            color[2] = 0;
+            *(m.data+m.step[0]*row + m.step[1]*col) =color[0];
+            *(m.data+m.step[0]*row + m.step[1]*col+m.elemSize1()) =color[1];
+            *(m.data+m.step[0]*row + m.step[1]*col+m.elemSize1()*2) =color[2];
+            cout <<(int)*(m.data+m.step[0]*row + m.step[1]*col)<<","
+            <<(int)*(m.data+m.step[0]*row + m.step[1]*col+1)<<","
+            <<(int)*(m.data+m.step[0]*row + m.step[1]*col+2)
+            <<endl;
+        }
+    }
+
+    if (!m.data) {
+        std::cout << "Image not loaded";
+        return -1;
+    }
+    imshow("demo1", m);
+    waitKey(0);
+    return 0;
+
+}
+#endif
+
+#if 0
+
+int main(){
+    Mat srcImage = imread("test01.jpeg",IMREAD_GRAYSCALE);
+    if (!srcImage.data) {
+        std::cout << "Image not loaded";
+        return -1;
+    }
+    imshow("demo1", srcImage);
+    waitKey(0);
+    return 0;
+
+}
+#endif
+
+#if 0
 int main(){
     Mat m = Mat(400,400,CV_8U,Scalar(0));
     for (int col = 0; col < 400; col++) {

@@ -4,8 +4,115 @@
 using namespace std;
 using namespace cv;
 
-
+// lect demo3   at() channel 3
 #if 1
+// todo
+int main(int argc, char* argv[]){
+    Mat image, image2;
+    if (argc != 2) { cout << "needs 1 argument, e.g. image.jpg" << endl ; exit (0) ;}
+    image = imread(argv[1],0);// flags 0 to transform to greyscale
+//    image = imread(argv[1],1);// 此处如果是1 则depth 变大，复制时step 变化。
+    image2 = imread(argv[1],0);
+    image2.create(image.size(),CV_8UC1);
+    for (int x = 0; x < image.cols; x++) {
+        for (int y = 0; y < image.rows; y++) {
+            if(x == y){
+                image2.at<uchar>(y,x) =255;
+            } else{
+                image2.at<uchar>(y,x) = image.at<uchar>(y,x);
+            }
+        }
+    }
+    namedWindow("regional image",WINDOW_AUTOSIZE);// lect err
+    imshow("regional image",image);
+    namedWindow("destination image",WINDOW_AUTOSIZE);// lect err
+    imshow("destination image",image2);
+    waitKey(0);
+    return 0;
+}
+#endif
+
+// lect demo3   at()
+#if 0
+int main(int argc, char* argv[]){
+    Mat image, image2;
+    if (argc != 2) { cout << "needs 1 argument, e.g. image.jpg" << endl ; exit (0) ;}
+    image = imread(argv[1],0);// flags 0 to transform to greyscale
+//    image = imread(argv[1],1);// 此处如果是1 则depth 变大，复制时step 变化。
+    image2 = imread(argv[1],0);
+    image2.create(image.size(),CV_8UC1);
+    for (int x = 0; x < image.cols; x++) {
+        for (int y = 0; y < image.rows; y++) {
+            if(x == y){
+                image2.at<uchar>(y,x) =255;
+            } else{
+                image2.at<uchar>(y,x) = image.at<uchar>(y,x);
+            }
+        }
+    }
+    namedWindow("regional image",WINDOW_AUTOSIZE);// lect err
+    imshow("regional image",image);
+    namedWindow("destination image",WINDOW_AUTOSIZE);// lect err
+    imshow("destination image",image2);
+    waitKey(0);
+    return 0;
+}
+#endif
+
+
+//lect demo2
+#if 0
+
+int main(int argc , char** argv) {
+//if there is no argument, exit
+    if (argc != 2) { cout << "needs 1 argument, e.g. image.jpg" << endl ; exit (0) ;}
+// create windows to show images
+    namedWindow("Color" ,0) ;
+    namedWindow("Grey" ,0) ; //create Mat instances
+    Mat imagecolor , imagegrey ;
+//load the file name in the argument onto ’image’
+    imagecolor=imread ( argv [ 1 ] ) ;
+//convert to greyscale
+    cvtColor ( imagecolor , imagegrey , COLOR_BGR2GRAY) ; //lect error
+//show the windows
+    imshow("Color" , imagecolor ) ;
+    imshow("Grey" , imagegrey) ;
+//hold the image until the user presses any key waitKey(0) ;
+//write the image into a file
+    imwrite("grey.jpg", imagegrey);
+    cout << "color image channels " << imagecolor.channels() <<endl; cout << "grey image channels " << imagegrey . channels () << endl ;
+    waitKey(0);
+
+    return 0 ;
+
+}
+#endif
+
+//lect demo1
+#if 0
+int main(int argc, char * argv[]){
+    if (argc != 2) { cout << "needs 1 argument, e.g. image.jpg" << endl ; exit (0) ;}
+    namedWindow("win01",0);
+    Mat image1 = imread(argv[1]);
+    imshow("win_01",image1);
+    waitKey(0);
+
+    return 0;
+}
+
+#endif
+
+#if 0
+//ppt p1    convert to gray
+int main(int argc , char** argv){
+    Mat imageColor, imageGrey;
+    imageColor = imread(argv[1],1);
+    imageGrey = imread(argv[1],0);
+    imwrite("grey01.jpg",imageGrey);
+    return 0;
+}
+#endif
+#if 0
 
 int main(){
     Mat m = imread("test01.jpeg");

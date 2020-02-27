@@ -4,23 +4,35 @@
 using namespace std;
 using namespace cv;
 
-// lect demo3   at() channel 3
-#if 1
-// todo
+/*  lect demo3   at() channel 3      
+ * 取像素点的灰度值或者RGB值
+ * Mat_<uchar> img = image;
+ * */
+#if 0
+
 int main(int argc, char* argv[]){
     Mat image, image2;
     if (argc != 2) { cout << "needs 1 argument, e.g. image.jpg" << endl ; exit (0) ;}
-    image = imread(argv[1],0);// flags 0 to transform to greyscale
+    image = imread(argv[1],1);// flags 0 to transform to greyscale
 //    image = imread(argv[1],1);// 此处如果是1 则depth 变大，复制时step 变化。
     image2 = imread(argv[1],0);
-    image2.create(image.size(),CV_8UC1);
+    image2.create(image.size(),CV_8UC3);
     for (int x = 0; x < image.cols; x++) {
         for (int y = 0; y < image.rows; y++) {
+            Vec3b pixel_image = image.at<Vec3b>(y,x);
+            Vec3b pixel_image2 = image.at<Vec3b>(y,x);
             if(x == y){
-                image2.at<uchar>(y,x) =255;
+//                image2.at<uchar>(y,x) =255;
+                pixel_image2[0] = 0;
+                pixel_image2[1] = 255;
+                pixel_image2[2] = 0;
             } else{
-                image2.at<uchar>(y,x) = image.at<uchar>(y,x);
+//                image2.at<uchar>(y,x) = image.at<uchar>(y,x);
+                pixel_image2[0] = pixel_image[0];
+                pixel_image2[1] = pixel_image[1];
+                pixel_image2[2] = pixel_image[2];
             }
+            image2.at<Vec3b>(y,x) =pixel_image2;
         }
     }
     namedWindow("regional image",WINDOW_AUTOSIZE);// lect err

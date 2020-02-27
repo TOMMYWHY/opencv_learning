@@ -4,6 +4,42 @@
 using namespace std;
 using namespace cv;
 
+/* Listing 2.5  macro
+ */
+#if 1
+
+#define Mpixel(image,x,y) ((uchar*)(image.data + y*(image.step)))[x]
+//#define Mpixel(image,x,y)((uchar*)(image.data + y*(image.step[0]))) [x]
+// step[0] 是矩阵中一行元素的字节数
+//step[1]是矩阵中一个元素字节数
+
+//#define Mpixel(image,x,y) ( (uchar *) ( ((image).data) + (y)*((image).step) ) ) [(x)]
+int main(int argc, char* argv[]){
+     Mat image, image2;
+     if (argc != 2) { cout << "needs 1 argument, e.g. image.jpg" << endl ; exit (0) ;}
+     image = imread(argv[1],0);
+     image2.create(image.size(),CV_8UC1); // create 不能设置初始值
+    for (int x = 0; x < image.cols; x++) {
+        for (int y = 0; y < image.rows; y++) {
+            if(x == y){
+                Mpixel(image2,x,y)=255;
+            }else{
+                Mpixel(image2,x,y) = Mpixel(image,x,y);
+            }
+        }
+    }
+    namedWindow("regional image",WINDOW_AUTOSIZE);// lect err
+    imshow("regional image",image);
+    namedWindow("destination image",WINDOW_AUTOSIZE);// lect err
+    imshow("destination image",image2);
+    waitKey(0);
+
+    return 0;
+}
+
+
+#endif
+
 /*  lect demo3   at() channel 3      
  * 取像素点的灰度值或者RGB值
  * Mat_<uchar> img = image;
@@ -241,4 +277,33 @@ int main() {
     return 0;
 }
 
+#endif
+
+//===========================//
+//testing
+#if 0
+void createAlphaMat(Mat &mat)
+{
+    for(int i = 0 ; i < mat.rows ; i ++) {
+        for(int j = 0 ; j < mat.cols ; j ++) {
+            Vec4b &rgba = mat.at<Vec4b>(i,j);
+            rgba[0] = UCHAR_MAX ;
+            rgba[1] = saturate_cast<uchar>((float (mat.cols - j)) / ((float)mat.cols) * UCHAR_MAX);
+            rgba[2] = saturate_cast<uchar>((float (mat.rows - i)) / ((float)mat.rows) * UCHAR_MAX);
+            rgba[3] = saturate_cast<uchar>(0.5 * (rgba[1] + rgba[2]));
+        }
+    }
+}
+int main()
+{
+    Mat mat(480,640,CV_8UC4);
+    createAlphaMat(mat);
+
+    vector<int> compression_params ;
+    compression_params.push_back(IMWRITE_PNG_COMPRESSION);
+    compression_params.push_back(9);
+
+    imwrite("alpha.png",mat,compression_params);
+    return 0;
+}
 #endif
